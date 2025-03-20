@@ -123,6 +123,18 @@ final class DataSheetImportController
                 $pageTS['module.']['tx_xlsimport.']['settings.']['allowedTables']
             );
         }
+        $checkCp1252 = false;
+        if (isset($pageTS['module.']['tx_xlsimport.']['settings.']['checkCp1252'])) {
+            $checkCp1252 = $pageTS['module.']['tx_xlsimport.']['settings.']['checkCp1252'];
+        }
+        $checkDeleteOnPage = false;
+        if (isset($pageTS['module.']['tx_xlsimport.']['settings.']['checkDeleteOnPage'])) {
+            $checkDeleteOnPage = $pageTS['module.']['tx_xlsimport.']['settings.']['checkDeleteOnPage'];
+        }
+        $checkFirstLineContainsHeader = false;
+        if (isset($pageTS['module.']['tx_xlsimport.']['settings.']['checkFirstLineContainsHeader'])) {
+            $checkFirstLineContainsHeader = $pageTS['module.']['tx_xlsimport.']['settings.']['checkFirstLineContainsHeader'];
+        }
 
         if ($extConfTempTables = GeneralUtility::makeInstance(
             ExtensionConfiguration::class
@@ -139,6 +151,9 @@ final class DataSheetImportController
         $assignedValues = [
             'page' => $pageId,
             'allowedTables' => $allowedTables,
+            'checkCp1252' => $checkCp1252,
+            'checkDeleteOnPage' => $checkDeleteOnPage,
+            'checkFirstLineContainsHeader' => $checkFirstLineContainsHeader,
         ];
 
         // TYPO3 version switcher, as the implementation of rendering changed in V12
@@ -182,6 +197,7 @@ final class DataSheetImportController
         $table = $args['table'];
         $retry = (bool)($args['retry'] ?? false);
         $jsonFile = $args['jsonFile'] ?? '';
+        $firstLineContainsFields = (bool)($args['firstLineContainsFields'] ?? false);
 
         if (!AccessUtility::isAllowedTable($table, $pageId)) {
             throw new AccessDeniedTableModifyException(
@@ -261,6 +277,7 @@ final class DataSheetImportController
                     'formName' => 'importData',
                 ],
             ],
+            'firstLineContainsFields' => $firstLineContainsFields,
         ];
 
         if (
@@ -281,6 +298,7 @@ final class DataSheetImportController
             JavaScriptModuleInstruction::create('@sudhaus7/xlsimport/import-count.js')
         );
         $moduleTemplate->assignMultiple($assignedValues);
+        debug($assignedValues); die();
         return $moduleTemplate->renderResponse('DataSheetImport/Upload');
     }
 
@@ -301,6 +319,9 @@ final class DataSheetImportController
          * } $args
          */
         $args = $request->getParsedBody();
+
+        debug($args); die();
+
         $table = $args['table'];
         $jsonFile = $args['jsonFile'];
         $fieldMapping = $args['fields'];
