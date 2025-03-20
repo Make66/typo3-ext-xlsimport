@@ -36,9 +36,14 @@ extension configuration file
    module.tx_xlsimport {
        settings {
            allowedTables := addToList(tt_address)
+           checkCp1252 = false
+           checkDeleteOnPage = true
+           checkFirstLineContainsHeader = true
        }
    }
 
 
 Every TCA defined table could be used. Field names are taken by locallang
 files, so localization is done.
+
+checkXXXX relates to the default settings on the check boxes at the index page.
