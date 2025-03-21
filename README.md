@@ -57,6 +57,19 @@ you have to add the tablename `tx_news_domain_model_tag` to the list.
 
 The extension in itself does not maintain relations out of the box.
 
+You can preset the checkboxes on the index page like this:
+
+```
+module.tx_xlsimport {
+    settings {
+        allowedTables := tt_address
+        checkCp1252 = false
+        checkDeleteOnPage = true
+        checkFirstLineContainsHeader = true
+    }
+}
+```
+
 ### Limitations
 
 When a non-admin user is using the tool, the folder the import is made to has to
