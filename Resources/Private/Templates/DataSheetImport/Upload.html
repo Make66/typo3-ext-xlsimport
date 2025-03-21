@@ -52,6 +52,8 @@
             <legend>
                 <f:variable name="countData" value="{data -> f:count()}"/>
                 <f:translate key="info_complete" extensionName="xlsimport" />: <span class="counter">{countData}</span>/{countData}
+                <f:if condition="{firstLineContainsFields}"> (<f:translate extensionName="xlsimport" key="skipfirstline">skip 1st line</f:translate>)
+                </f:if>
             </legend>
             <p>
                 <button type="submit" class="btn btn-default">{f:translate(key:'import', extensionName: 'xlsimport')}</button>
@@ -67,12 +69,12 @@
                         <f:if condition="{i.isFirst}">
                             <f:for each="{row}" as="value" iteration="it">
                                 <td>
-                                    <select
-                                        name="fields[{it.cycle}]"
-                                    >
+                                    <select name="fields[{it.cycle}]">
                                         <option value="">{f:translate(key: 'ignore', extensionName: 'xlsimport')}</option>
                                         <f:for each="{fields}" as="field">
-                                            <option value="{field.type}">{field.label}</option>
+                                            <option value="{field.type}"
+                                                {f:if(condition: '{field.type} == {value} && {firstLineContainsFields}', then: ' selected')}
+                                            >{field.label}</option>
                                         </f:for>
                                     </select>
                                 </td>
@@ -82,15 +84,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <f:for each="{data}" as="row" key="number">
-                    <tr>
-                        <td>
-                            <input type="checkbox" class="count" name="dataset[{number}]" value="1" checked="true">
-                        </td>
-                        <f:for each="{row}" as="value" iteration="i">
-                            <td>{value}</td>
-                        </f:for>
-                    </tr>
+                <f:for each="{data}" as="row" key="number" iteration="i">
+                    <f:if condition="{firstLineContainsFields} && {i.isFirst}">
+                        <f:else>
+                            <tr>
+                                <td><input checked="true" class="count" name="dataset[{number}]" type="checkbox" value="1"></td>
+                                <f:for as="value" each="{row}"> <td>{value}</td></f:for>
+                            </tr>
+                        </f:else>
+                    </f:if>
                 </f:for>
                 </tbody>
             </table>

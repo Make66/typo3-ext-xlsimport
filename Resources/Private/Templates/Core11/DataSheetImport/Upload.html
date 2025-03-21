@@ -51,8 +51,7 @@
         <fieldset>
             <legend>
                 <f:variable name="countData" value="{data -> f:count()}"/>
-                <f:translate extensionName="xlsimport" key="info_complete"/>
-                : <span class="counter">{countData}</span>/{countData}
+                <f:translate extensionName="xlsimport" key="info_complete"/>: <span class="counter">{countData}</span>/{countData}
                 <f:if condition="{firstLineContainsFields}"> (<f:translate extensionName="xlsimport" key="skipfirstline">skip 1st line</f:translate>)
                 </f:if>
             </legend>
@@ -75,7 +74,7 @@
                                         <f:for as="field" each="{fields}">
                                             <option value="{field.type}"
                                                 {f:if(condition: '{field.type} == {value} && {firstLineContainsFields}', then: ' selected')}
-                                            >{field.type}</option>
+                                            >{field.label}</option>
                                         </f:for>
                                     </select>
                                 </td>
@@ -85,9 +84,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <f:for as="row" each="{data}" iteration="i" key="number">
+                <f:for each="{data}" as="row" key="number" iteration="i">
                     <f:if condition="{firstLineContainsFields} && {i.isFirst}">
-                        <f:then></f:then>
                         <f:else>
                             <tr>
                                 <td><input checked="true" class="count" name="dataset[{number}]" type="checkbox" value="1"></td>
