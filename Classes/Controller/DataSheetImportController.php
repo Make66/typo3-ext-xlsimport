@@ -298,7 +298,6 @@ final class DataSheetImportController
             JavaScriptModuleInstruction::create('@sudhaus7/xlsimport/import-count.js')
         );
         $moduleTemplate->assignMultiple($assignedValues);
-        debug($assignedValues); die();
         return $moduleTemplate->renderResponse('DataSheetImport/Upload');
     }
 
