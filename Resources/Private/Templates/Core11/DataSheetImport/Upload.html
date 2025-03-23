@@ -22,6 +22,8 @@
     <form
         id="importData"
         method="post"
+        action="{f:be.uri(route: 'web_xlsimport', parameters: '{id: \'{page}\', action: \'import\'}')}"
+        name="importData"
         enctype="multipart/form-data"
     >
         <input type="hidden" name="jsonFile" value="{jsonFile}">

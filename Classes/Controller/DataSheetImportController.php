@@ -319,8 +319,6 @@ final class DataSheetImportController
          */
         $args = $request->getParsedBody();
 
-        debug($args); die();
-
         $table = $args['table'];
         $jsonFile = $args['jsonFile'];
         $fieldMapping = $args['fields'];
